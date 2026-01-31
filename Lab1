@@ -1,0 +1,22 @@
+%%writefile processCreation.sh
+#!/bin/bash
+
+echo "Parent Process ID:$$"
+(
+echo "Child 1 Process ID: $$, Parent Process ID: $PPID"
+
+sleep 5
+)&
+(
+echo "Child 2 Process ID: $$, Parent Process ID: $PPID"
+
+sleep 5
+
+) &
+
+sleep 1
+
+echo -e "\n Process Tree:"
+
+ps -o pid,ppid,cmd --forest | grep -E "bash|sleep" | grep -v "grep"
+
